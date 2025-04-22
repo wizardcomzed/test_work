@@ -11,6 +11,23 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/tasks",
+     *     summary="Получить список задач",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Успешный ответ",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Task")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function index(Request $request)
     {
         $query = Task::query();
@@ -76,3 +93,19 @@ class TaskController extends Controller
         return response()->json(['data' => $collection], 200);
     }
 }
+/**
+ * @OA\Schema(
+ *     schema="Task",
+ *     type="object",
+ *     @OA\Property(property="id",           type="integer"),
+ *     @OA\Property(property="title",        type="string"),
+ *     @OA\Property(property="description",  type="string"),
+ *     @OA\Property(property="status",       type="string"),
+ *     @OA\Property(property="importance",   type="integer"),
+ *     @OA\Property(property="deadline",     type="string", format="date-time"),
+ *     @OA\Property(property="is_overdue",    type="boolean"),
+ *     @OA\Property(property="priority_score", type="number", format="float"),
+ *     @OA\Property(property="created_at",   type="string", format="date-time"),
+ *     @OA\Property(property="updated_at",   type="string", format="date-time")
+ * )
+ */
