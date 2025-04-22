@@ -1,0 +1,90 @@
+openapi: 3.0.0
+info:
+  title: Task API
+  version: 1.0.0
+paths:
+  /api/tasks:
+    get:
+      summary: Список задач
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [TODO, IN_PROGRESS, COMPLETED]
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Создать задачу
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '201':
+          description: Created
+  /api/tasks/{id}:
+    get:
+      summary: Получить задачу
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+    put:
+      summary: Обновить задачу
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Удалить задачу
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+  /api/tasks/priority:
+    get:
+      summary: Приоритизированный список задач
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+        importance:
+          type: integer
+        deadline:
+          type: string
+          format: date-time
